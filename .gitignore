@@ -1,1 +1,6 @@
+# Sensitive files
 .env
+
+# all .go file in root except main.go
+/*.go
+!main.go
