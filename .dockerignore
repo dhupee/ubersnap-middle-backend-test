@@ -1,0 +1,16 @@
+# temporary folders & files
+placeholder/
+tmp/
+/*.html
+/*.txt
+
+# senstive files
+.env
+
+# unneeded files
+Old_Dockerfile
+.editorconfig
+.gitignore
+.env.example
+air.toml
+README.md
