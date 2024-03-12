@@ -1,7 +1,8 @@
 # Sensitive files
 .env
 
-# Placeholder files
+# Placeholder/Temporary files
+tmp
 test-image
 
 # all .go file in root except main.go
