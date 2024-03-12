@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	converter "github.com/dhupee/ubersnap-middle-backend-test/converter"
+	utils "github.com/dhupee/ubersnap-middle-backend-test/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -67,8 +68,9 @@ func ConvertHandler(c *fiber.Ctx) error {
 		return err
 	}
 
-	// TODO: if the file is not an image, return an error
-	// TODO: if the fileTarget is not in the list, also return an error
+	// Accepted file types
+	// TODO: check ffmpeg again for accepted file types
+	imageTypeList := []string{"jpg", "jpeg", "png", "webp"}
 
 	// extract image name without extension
 	imageName := strings.Split(image.Filename, ".")[0]
@@ -77,11 +79,20 @@ func ConvertHandler(c *fiber.Ctx) error {
 	log.Println(imageType)
 	log.Println(fileTarget)
 
+	// Throw an error if the imageType and fileTarget is not in the list
+	if !utils.IsInSlice(imageType, imageTypeList) {
+		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "Invalid file type", "data": nil})
+	}
+	if !utils.IsInSlice(fileTarget, imageTypeList) {
+		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "Invalid file target", "data": nil})
+	}
+
 	// if target directory doesn't exist, create it
 	if _, err := os.Stat(fmt.Sprintf(tmpDir + "/" + imageName)); os.IsNotExist(err) {
 		os.Mkdir(tmpDir+"/"+imageName, 0775)
 	}
-	// TODO:add else if if there's similar directory, add "directory-1" or "directory-n"
+	// NOTE:no need to add else if if there's similar directory,
+	// add "directory-1" or "directory-n" since the content will get overwritten
 
 	// Save file to root directory:
 	err = c.SaveFile(image, fmt.Sprintf(tmpDir+"/"+imageName+"/input."+imageType))
