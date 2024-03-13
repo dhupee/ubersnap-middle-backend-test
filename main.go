@@ -35,11 +35,24 @@ func main() {
 
 	v1 := app.Group("/v1")
 
+	// Routes
 	v1.Get("/", RootHandler)
 	v1.Get("/ping", func(c *fiber.Ctx) error {
 		return c.SendString("pong")
 	})
 	v1.Post("/convert", ConvertHandler)
+
+	// NOTE: This one is working but can be improved for the serving purposes
+	v1.Get("/download/", func(c *fiber.Ctx) error {
+		imageName := c.Get("image-name")
+		fileTarget := c.Get("file-target")
+		if imageName == "" || fileTarget == "" {
+			return c.Status(400).SendString("Missing image name or file target")
+		}
+		tmpDir := "/tmp/ubersnap-backend"
+		log.Println("download: ", tmpDir+"/"+imageName+"/output."+fileTarget)
+		return c.SendFile(tmpDir + "/" + imageName + "/output." + fileTarget)
+	})
 
 	// Start Fiber server
 	log.Fatal(app.Listen(":" + PORT))
@@ -52,6 +65,8 @@ func RootHandler(c *fiber.Ctx) error {
 
 // Route to receive file
 func ConvertHandler(c *fiber.Ctx) error {
+	// TODO: Move this function somewhere
+
 	// Headers
 	fileTarget := c.Get("file-target")
 
@@ -80,6 +95,7 @@ func ConvertHandler(c *fiber.Ctx) error {
 	log.Println(fileTarget)
 
 	// Throw an error if the imageType and fileTarget is not in the list
+	// NOTE: In the future we can add API to scan for malware or something
 	if !utils.IsInSlice(imageType, imageTypeList) {
 		return c.Status(400).JSON(fiber.Map{"status": "error", "message": "Invalid file type", "data": nil})
 	}
@@ -88,16 +104,14 @@ func ConvertHandler(c *fiber.Ctx) error {
 	}
 
 	// if target directory doesn't exist, create it
+	// TODO: Have better naming convention
 	if _, err := os.Stat(fmt.Sprintf(tmpDir + "/" + imageName)); os.IsNotExist(err) {
 		os.Mkdir(tmpDir+"/"+imageName, 0775)
 	}
-	// NOTE:no need to add else if if there's similar directory,
-	// add "directory-1" or "directory-n" since the content will get overwritten
 
-	// Save file to root directory:
+	// Save the file to the temporary directory
 	err = c.SaveFile(image, fmt.Sprintf(tmpDir+"/"+imageName+"/input."+imageType))
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 
@@ -110,6 +124,7 @@ func ConvertHandler(c *fiber.Ctx) error {
 		return err
 	}
 
-	// TODO: add a route to download the file
-	return c.SendString("File uploaded and saved successfully")
+	curlDownloadLink := fmt.Sprintf(`curl --request GET --url http://127.0.0.1:8080/v1/download/ --header 'file-target: %s' --header 'image-name: %s'`, fileTarget, imageName)
+	return c.SendString("File successfully converted, please download by curl: " + curlDownloadLink)
+	// return c.SendString("File uploaded and saved successfully")
 }
