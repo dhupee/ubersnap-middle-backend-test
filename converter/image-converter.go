@@ -22,10 +22,17 @@ func ImageConvert(input_path string, output_path string) error {
 	return nil
 }
 
-func ImageResize(input string, output string, width int, height int) error {
-	err := ffmpeg.Input(input).
+// ImageResize will resize the image to the specified dimensions using ffmpeg
+// Parameters:
+// - input_path: The path to the input image file.
+// - output_path: The path to the output image file.
+//
+// Returns:
+// - nil if the conversion is successful, or an error if the conversion fails.
+func ImageResize(input_path string, output_path string, width int, height int) error {
+	err := ffmpeg.Input(input_path).
 		Filter("scale", ffmpeg.Args{strconv.Itoa(width), strconv.Itoa(height)}).
-		Output(output).
+		Output(output_path).
 		OverWriteOutput().
 		Run()
 	if err != nil {
