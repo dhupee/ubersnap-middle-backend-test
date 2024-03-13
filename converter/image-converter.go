@@ -1,6 +1,8 @@
 package process
 
 import (
+	"strconv"
+
 	ffmpeg "github.com/u2takey/ffmpeg-go"
 )
 
@@ -17,5 +19,17 @@ func ImageConvert(input_path string, output_path string) error {
 		return err
 	}
 
+	return nil
+}
+
+func ImageResize(input string, output string, width int, height int) error {
+	err := ffmpeg.Input(input).
+		Filter("scale", ffmpeg.Args{strconv.Itoa(width), strconv.Itoa(height)}).
+		Output(output).
+		OverWriteOutput().
+		Run()
+	if err != nil {
+		return err
+	}
 	return nil
 }
