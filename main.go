@@ -42,17 +42,17 @@ func main() {
 	})
 	v1.Post("/convert", ConvertHandler)
 
-	// NOTE: This one is working but can be improved for the serving purposes
-	v1.Get("/download/", func(c *fiber.Ctx) error {
-		imageName := c.Get("image-name")
-		fileTarget := c.Get("file-target")
-		if imageName == "" || fileTarget == "" {
-			return c.Status(400).SendString("Missing image name or file target")
-		}
-		tmpDir := "/tmp/ubersnap-backend"
-		log.Println("download: ", tmpDir+"/"+imageName+"/output."+fileTarget)
-		return c.SendFile(tmpDir + "/" + imageName + "/output." + fileTarget)
-	})
+	// // NOTE: This one is working but can be improved for the serving purposes
+	// v1.Get("/download/", func(c *fiber.Ctx) error {
+	// 	imageName := c.Get("image-name")
+	// 	fileTarget := c.Get("file-target")
+	// 	if imageName == "" || fileTarget == "" {
+	// 		return c.Status(400).SendString("Missing image name or file target")
+	// 	}
+	// 	tmpDir := "/tmp/ubersnap-backend"
+	// 	log.Println("download: ", tmpDir+"/"+imageName+"/output."+fileTarget)
+	// 	return c.SendFile(tmpDir + "/" + imageName + "/output." + fileTarget)
+	// })
 
 	// Start Fiber server
 	log.Fatal(app.Listen(":" + PORT))
@@ -124,7 +124,13 @@ func ConvertHandler(c *fiber.Ctx) error {
 		return err
 	}
 
-	curlDownloadLink := fmt.Sprintf(`curl --request GET --url http://127.0.0.1:8080/v1/download/ --header 'file-target: %s' --header 'image-name: %s'`, fileTarget, imageName)
-	return c.SendString("File successfully converted, please download by curl: " + curlDownloadLink)
+	// curlDownloadLink := fmt.Sprintf(`curl --request GET --url http://127.0.0.1:8080/v1/download/ --header 'file-target: %s' --header 'image-name: %s'`, fileTarget, imageName)
+	// return c.SendString("File successfully converted, please download by curl: " + curlDownloadLink)
 	// return c.SendString("File uploaded and saved successfully")
+
+	// Send the output file
+	return c.SendFile(tmpDir + "/" + imageName + "/output." + fileTarget)
+
+	// NOTE: this is not ideal for production code,
+	// the correct way is to send the output file to storage bucket like S3 or GCS
 }
