@@ -15,8 +15,6 @@ import (
 )
 
 func main() {
-	// fmt.Println("Hello, World!")
-
 	// Load the .env file
 	err := godotenv.Load()
 	if err != nil {
@@ -47,25 +45,13 @@ func main() {
 	v1.Post("/resize", ResizeHandler)
 	v1.Post("/compress", CompressionHandler)
 
-	// // NOTE: This one is working but can be improved for the serving purposes
-	// v1.Get("/download/", func(c *fiber.Ctx) error {
-	// 	imageName := c.Get("image-name")
-	// 	fileTarget := c.Get("file-target")
-	// 	if imageName == "" || fileTarget == "" {
-	// 		return c.Status(400).SendString("Missing image name or file target")
-	// 	}
-	// 	tmpDir := "/tmp/ubersnap-backend"
-	// 	log.Println("download: ", tmpDir+"/"+imageName+"/output."+fileTarget)
-	// 	return c.SendFile(tmpDir + "/" + imageName + "/output." + fileTarget)
-	// })
-
 	// Start Fiber server
 	log.Fatal(app.Listen(":" + PORT))
 }
 
 func RootHandler(c *fiber.Ctx) error {
-	return c.SendString("Hello, World!")
-	// return c.SendFile("./assets/welcome.txt")
+	// return c.SendString("Hello, World!")
+	return c.SendFile("./assets/welcome.txt")
 }
 
 // Route to receive file

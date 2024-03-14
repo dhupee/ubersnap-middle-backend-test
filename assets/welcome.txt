@@ -1,0 +1,5 @@
+Welcome to my humble backend service!
+
+This project is developed for Ubersnap Application
+
+Please refer to the README.md in the github repo for more details
