@@ -5,7 +5,6 @@ go 1.22.1
 require (
 	github.com/gofiber/fiber/v2 v2.52.2 // direct
 	github.com/joho/godotenv v1.5.1 // direct
-	gocv.io/x/gocv v0.35.0 // direct
 	github.com/u2takey/ffmpeg-go v0.5.0 // direct
 )
 
