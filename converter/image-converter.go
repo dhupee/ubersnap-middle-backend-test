@@ -40,3 +40,25 @@ func ImageResize(input_path string, output_path string, width int, height int) e
 	}
 	return nil
 }
+
+// ImageCompress compresses the image with the specified ratio using ffmpeg
+//
+// Parameters:
+// - input_path: The path to the input image
+// - output_path: The path to the output compressed image
+// - ratio: The ratio of the image to compress
+//
+// Returns:
+// - nil if the image is compressed successfully, an error otherwise
+func ImageCompress(input_path string, output_path string, ratio float64) error {
+	err := ffmpeg.Input(input_path).
+		Output(output_path, ffmpeg.KwArgs{
+			"vf": "scale=iw*" + strconv.FormatFloat(ratio, 'f', -1, 64) + ":ih*" + strconv.FormatFloat(ratio, 'f', -1, 64),
+		}).
+		OverWriteOutput().
+		Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
