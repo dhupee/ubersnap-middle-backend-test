@@ -1,1 +1,100 @@
-{"requests":[],"folders":[{"v":2,"headers":[],"requests":[{"method":"GET","auth":{"authType":"none","authActive":true},"endpoint":"http://127.0.0.1:8080/v1/","preRequestScript":"","v":"1","name":"root","testScript":"","body":{"body":null,"contentType":null},"params":[],"headers":[]},{"body":{"body":null,"contentType":null},"endpoint":"http://127.0.0.1:8080/v1/ping","testScript":"","v":"1","name":"ping","auth":{"authType":"none","authActive":true},"headers":[],"params":[],"method":"GET","preRequestScript":""},{"headers":[],"preRequestScript":"","v":"1","name":"convert","auth":{"authType":"none","authActive":true},"body":{"contentType":"multipart/form-data","body":[{"active":true,"isFile":false,"key":"image","value":""}]},"method":"POST","testScript":"","params":[],"endpoint":"http://127.0.0.1:8080/v1/convert"},{"endpoint":"http://127.0.0.1:8080/v1/resize","method":"POST","auth":{"authActive":true,"authType":"none"},"name":"resize","v":"1","params":[],"testScript":"","preRequestScript":"","headers":[{"active":true,"value":"","key":"width"},{"value":"","active":true,"key":"height"},{"value":"","active":true,"key":"file-target"}],"body":{"body":[{"active":true,"value":"","key":"image","isFile":false}],"contentType":"multipart/form-data"}},{"endpoint":"http://127.0.0.1:8080/v1/compress","method":"POST","auth":{"authActive":true,"authType":"none"},"name":"compress","v":"1","params":[],"testScript":"","preRequestScript":"","headers":[{"active":true,"key":"compression-ratio","value":"0.4"}],"body":{"body":[{"active":true,"value":[{}],"key":"image","isFile":true}],"contentType":"multipart/form-data"}}],"folders":[],"auth":{"authType":"inherit","authActive":true},"name":"V1"}],"headers":[],"name":"ubersnap","auth":{"authType":"inherit","authActive":true},"v":2}
+{
+  "name": "ubersnap",
+  "headers": [],
+  "auth": { "authType": "inherit", "authActive": true },
+  "requests": [],
+  "v": 2,
+  "folders": [
+    {
+      "auth": { "authActive": true, "authType": "inherit" },
+      "v": 2,
+      "requests": [
+        {
+          "method": "GET",
+          "endpoint": "http://127.0.0.1:8080/v1/",
+          "preRequestScript": "",
+          "body": { "body": null, "contentType": null },
+          "name": "root",
+          "testScript": "",
+          "headers": [],
+          "auth": { "authActive": true, "authType": "none" },
+          "params": [],
+          "v": "1"
+        },
+        {
+          "headers": [],
+          "endpoint": "http://127.0.0.1:8080/v1/ping",
+          "preRequestScript": "",
+          "testScript": "",
+          "method": "GET",
+          "v": "1",
+          "body": { "contentType": null, "body": null },
+          "auth": { "authActive": true, "authType": "none" },
+          "name": "ping",
+          "params": []
+        },
+        {
+          "testScript": "",
+          "params": [],
+          "endpoint": "http://127.0.0.1:8080/v1/convert",
+          "auth": { "authActive": true, "authType": "none" },
+          "headers": [{ "value": "jpg", "key": "file-target", "active": true }],
+          "body": {
+            "contentType": "multipart/form-data",
+            "body": [
+              { "key": "image", "isFile": true, "active": true, "value": [{}] }
+            ]
+          },
+          "v": "1",
+          "preRequestScript": "",
+          "method": "POST",
+          "name": "convert"
+        },
+        {
+          "method": "POST",
+          "body": {
+            "body": [
+              { "isFile": false, "value": "", "key": "image", "active": true }
+            ],
+            "contentType": "multipart/form-data"
+          },
+          "testScript": "",
+          "preRequestScript": "",
+          "auth": { "authActive": true, "authType": "none" },
+          "headers": [
+            { "value": "", "active": true, "key": "width" },
+            { "active": true, "key": "height", "value": "" },
+            { "key": "file-target", "value": "", "active": true }
+          ],
+          "params": [],
+          "v": "1",
+          "endpoint": "http://127.0.0.1:8080/v1/resize",
+          "name": "resize"
+        },
+        {
+          "endpoint": "http://127.0.0.1:8080/v1/compress",
+          "auth": { "authType": "none", "authActive": true },
+          "preRequestScript": "",
+          "v": "1",
+          "params": [],
+          "method": "POST",
+          "testScript": "",
+          "headers": [
+            { "active": true, "key": "compression-ratio", "value": "" }
+          ],
+          "name": "compress",
+          "body": {
+            "body": [
+              { "isFile": false, "active": true, "key": "image", "value": "" }
+            ],
+            "contentType": "multipart/form-data"
+          }
+        }
+      ],
+      "name": "V1",
+      "folders": [],
+      "headers": []
+    }
+  ]
+}
+
