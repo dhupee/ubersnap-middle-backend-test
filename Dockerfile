@@ -1,5 +1,5 @@
 # Base image
-FROM golang:1.21.5-alpine3.19 AS Builder
+FROM golang:1.22.1-bookworm AS Builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN go mod download
 # Build the application
 RUN go build -o ./appbin ./main.go
 
-FROM alpine:3.19
+FROM debian:bookworm
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -21,6 +21,10 @@ WORKDIR /app
 # Copy the application binary from the builder image
 COPY --from=Builder /app/appbin ./
 COPY --from=Builder /app/assets ./assets
+
+# Download FFMPEG
+RUN apt-get update
+RUN apt-get install -y ffmpeg
 
 # Expose the application port
 EXPOSE 8080
