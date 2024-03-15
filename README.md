@@ -17,6 +17,7 @@ This program is writen in Go, with [Fiber](https://gofiber.io/) as the Web Frame
     - [native](#native)
     - [docker](#docker)
   - [api-testing](#api-testing)
+  - [unit-testing](#unit-testing)
   - [caveats](#caveats)
   <!--toc:end-->
 
@@ -70,6 +71,10 @@ For testing purposes, I provide [Hoppscotch](https://hoppscotch.io/) json file t
 For importing the json to Hoppscotch, please go to this [docs](docs/Importing-Hoppscotch-Json-file-into-the-workspace.pdf)
 
 I provided the necessarry `Request Body` and `Request Header` for testing purposes.
+
+## unit-testing
+
+For the unit test, I only cover the `converter` directory because that's the main functionality lies, for the testing I just run `go test ./converter`
 
 ## caveats
 
