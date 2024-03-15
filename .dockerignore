@@ -1,16 +1,19 @@
 # temporary folders & files
 placeholder/
 tmp/
-/*.html
+test-image/
 /*.txt
 
 # senstive files
 .env
 
 # unneeded files
+.git/
+img/
 Old_Dockerfile
 .editorconfig
 .gitignore
 .env.example
 air.toml
 README.md
+hoppscotch-workspace.json
