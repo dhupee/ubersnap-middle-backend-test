@@ -3,7 +3,7 @@ module github.com/dhupee/ubersnap-middle-backend-test
 go 1.22.1
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.2 // direct
+	github.com/gofiber/fiber/v2 v2.52.5 // direct
 	github.com/joho/godotenv v1.5.1 // direct
 	github.com/u2takey/ffmpeg-go v0.5.0 // direct
 )
